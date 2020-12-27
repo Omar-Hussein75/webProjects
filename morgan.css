@@ -277,3 +277,183 @@ header{
 	margin:0px;
 	
 }
+/*----------------------------alaa--------------*/
+.span1::after{
+    content: "";
+    animation: move1 4s ease-in-out infinite;
+    color: #00c3da;
+
+}
+@keyframes move1{
+    0%{
+        content: "|";
+    }
+    2%{
+        content: "a|";
+    }
+    4%{
+        content:"ap|";
+    }
+    6%{
+        content: "app|";
+    }
+    8%{
+        content: "apps|";
+    }
+    12%{
+        content: "apps|";
+    }
+    14%{
+        content: "apps|";
+    }
+    16%{
+        content: "apps|";
+    }
+    18%{
+        content: "apps|";
+    }
+    24%{
+        content: "apps|";
+    }
+    28%{
+        content: "app|";
+    }
+    24%{
+        content:"ap|";
+    }
+    26%{
+        content: "a|";
+    }
+    28%{
+        content: "|";
+    }
+    
+    30%{
+        content: " w|";
+    }
+    32%{
+        content: "we|";
+    }
+    34%{
+        content:"web|";
+    }
+    38%{
+        content: "web si|";
+    }
+    40%{
+        content: "web sit|";
+    }
+    42%{
+        content: "web site|";
+    }
+    44%{
+        content: "web sites|";
+    }
+    46%{
+        content: "web sites|";
+    }
+    48%{
+        content: " web sites|";
+    }50%{
+        content: "web sites|";
+    }52%{
+        content: "web sites|";
+    }52%{
+        content: "web sites|";
+    }52%{
+        content: "web site|";
+    }
+    54%{
+        content: "web sit|";
+    }
+    56%{
+        content: "web si|";
+    }
+    58%{
+        content: "web s|";
+    }60%{
+        content: "web|";
+    }
+    62%{
+        content: "we|";
+    }
+
+    64%{
+        content: "w|";
+    }
+
+    66%{
+        content: "";
+    }
+
+    68%{
+        content: "s|";
+    }
+
+    70%{
+        content: "so|";
+    }
+
+    72%{
+        content: "sof |";
+    }
+
+    74%{
+        content: "sof|";
+    }
+
+    76%{
+        content: "soft|";
+    }
+
+    78%{
+        content: "soft w|";
+    }
+
+    80%{
+        content: "soft war|";
+    }
+    82%{
+        content: "soft ware|";
+    }
+    84%{
+        content: "soft wares|";
+    }
+    84%{
+        content: "soft wares|";
+    }
+    86%{
+        content: "soft wares|";
+    }
+    88%{
+        content: "soft ware|";
+    }
+    90%{
+        content: "soft wa|";
+    }
+    92%{
+        content: "soft w|";
+    }
+    94%{
+        content: "soft|";
+    }
+    96%{
+        content: "sof|";
+    } 98%{
+        content: "so|";
+    } 100%{
+        content: "s|";
+    }
+
+}
+.button3{
+    font-size: 12px;
+    width: 120px;
+    height: 50px;
+    border: solid 1px #787878;
+    background-color: transparent;
+}
+.button3:hover{
+    color: white;
+    background-color: black;
+}
