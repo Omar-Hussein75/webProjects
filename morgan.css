@@ -1,0 +1,279 @@
+*{
+	box-sizing: border-box;
+}
+body{
+	background-color: rgba(0,0,0,0.05);
+}
+header{
+	background-image: url(https://bootstrapmade.com/demo/templates/DevFolio/assets/img/intro-bg.jpg);
+	height: 100vh;
+	background-position: center center;
+	background-size: cover;
+}
+.navbar-c{
+	padding-top: 1.563rem;
+    padding-bottom: 1.563rem;
+    font-weight: 600;
+
+}
+
+
+.head{
+	height: 85vh;
+	background-color: rgba(0,0,0,0.5);
+}
+.child{
+	width: 50%;
+}
+
+.head_child{
+	
+	padding-bottom: 20px;
+	margin-bottom: 10px;
+
+}
+.head_child h1{
+	color: #fff;
+    font-weight: 800;
+    font-size: 4.5rem;
+    text-align: center;
+    
+}
+
+.skillz{
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.skillz_word2{
+	background-color: #cde1f8;
+	width: 100%;
+	height: 15px;
+	
+}
+.percentage_bar1{
+	background-color: #0078ff;
+	width: 85%;
+	height: 100%;
+}
+.percentage_bar2{
+	background-color: #0078ff;
+	width: 75%;
+	height: 100%;
+}
+.percentage_bar3{
+	background-color: #0078ff;
+	width: 50%;
+	height: 100%;
+}
+.percentage_bar4{
+	background-color: #0078ff;
+	width: 90%;
+	height: 100%;
+}
+
+.about_1 h1{
+	border-bottom: solid 3px #0078ff;
+	width: 50%;
+	
+}
+.about_1 p{
+	
+	font-size: 1.25rem;
+	color: #6c757d;
+	font-weight: 300;
+}
+.title-s{
+	font-weight: 650;
+	font-size: 1.1rem;
+}
+.total{
+	margin: 50px 10px 50px 10px;
+	padding: 50px 0px 50px 0px;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+}
+.services{
+	text-align: center;
+	
+}
+.services h1{
+	text-align: center;
+	font-weight: 800;
+}
+.empty{
+	text-align: center;
+	width: 4.5%;
+	background-color:#0078ff;
+	height: 5px;
+	margin:auto; 
+}
+.items{
+	text-align: center;
+	padding:60px 20px 60px 20px;
+	margin-top: 40px;
+	border-radius: 5%;
+	transition:  all 500ms ;
+	background-color: #fff;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);	
+}
+.items h3{
+	font-size: 1.3rem;
+	padding-bottom: 20px;
+	padding-top: 20px;
+	
+}
+
+
+.cir{
+	padding-top: 20px;	
+	margin:auto;
+	height: 100px;
+	width: 100px;
+    border-radius: 50%;
+    text-align: center;
+    box-shadow: 0 0 0 10px #0070ff;
+    z-index: 5;
+   	transition:  all .5s ;
+}
+.items:hover .cir{
+	background-color: #0078ff;
+	box-shadow: 0 0 0 10px rgba(0,123,255,0.2);
+	color: #fff;
+}
+.backyard{
+	
+	background-image: url(https://bootstrapmade.com/demo/templates/DevFolio/assets/img/counters-bg.jpg);
+	background-position: center;
+	background-size: cover;
+	height: 400px;
+	margin-top: 50px;
+	background-color: rgba(0,0,50,0.6);
+
+
+}
+
+
+.items2{
+	color: #fff;
+	opacity: 0.9;	
+	text-align: center;
+	margin-top:60%;
+	padding: 30px 20px 30px 20px;
+
+}
+.counter{
+	
+	font-size: 30px;
+}
+.thin_layer{
+	background-color: rgba(0,123,255,0.7);
+	height: 400px;
+	
+
+}
+
+.partition_img{
+	overflow: hidden;
+}
+.items3 img{
+	transition: transform 1s;
+	overflow: hidden;
+}
+.items3 img:hover{
+	transform: scale(1.25,1.25);
+}
+.items3{
+	box-shadow: 0 13px 8px -10px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+	padding-bottom: 20px;
+	margin-bottom: 60px;
+}
+
+.partition p{
+	padding-top: 20px;
+	margin-top: 20px;
+	margin-bottom: .5rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+.trial{
+	width: 50px;
+	height: 50px;
+	position: relative;
+	left:0;
+	top: 0;
+	background-color: #09c;
+	animation-name: movement;
+	animation-iteration-count: infinite;
+	
+	animation-duration: 5s;
+}
+.head_child h2{
+	font-size: 2rem;
+	color: #fff;
+	font-weight: 350;
+	font-size: 3rem;
+	text-align: center;
+
+
+}
+.head_child h2::after {
+	content: "|";
+	animation-name:movement;
+	animation-duration: 3s;
+	animation-iteration-count: infinite;
+}
+@keyframes movement{
+	0%{ content: "|" }
+	2.7%{ content: "W|" }
+	5.4%{ content: "We|" }
+	8.1%{ content: "Web|" }
+	10.8%{ content: "Web |" }
+	13.5%{ content: "Web D|" }
+	16.2%{ content: "Web De|" }
+	18.9%{ content: "Web Dev|" }
+	21.6%{ content: "Web Deve|" }
+	24.3%{ content: "Web Develo|" }
+	27%{ content: "Web Develop|" }
+	29.7%{ content: "Web Developer|" }
+	32.4%{ content: "Web Develop|" }
+	35.1%{ content: "Web Develo|" }
+	37.8%{ content: "Web Deve|" }
+	40.5%{ content: "Web Dev|" }
+	43.2%{ content: "Web De|" }
+	45.9%{ content: "Web|" }
+	48.6%{ content: "We|" }
+	51.3%{ content: "W|" }
+	54%{ 	content: "|"
+			}
+	56.7%{ content: "We|" }
+	59.4%{ content: "Web|" }
+	62.1%{ content: "Web |" }
+	64.8%{ content: "Web D|" }
+	67.5%{ content: "Web De|" }
+	70.2%{ content: "Web Des|" }
+	72.9%{ content: "Web Desi|" }
+	75.6%{ content: "Web Desig|" }
+	78.3%{ content: "Web Design|" }
+	81%{ content: "Web Designe|" }
+	83.7%{ content: "Web Designer|" }
+	87.4%{ content: "Web Design|" }
+	89.1%{ content: "Web Des|" }
+	91.8%{ content: "Web De|" }
+	94.5%{ content: "Web|" }
+	97.2%{ content: "W|" }
+	100%{ content: "|" }
+	
+
+}
+.carousel-inner{
+	background-image: url(https://bootstrapmade.com/demo/templates/DevFolio/assets/img/overlay-bg.jpg);
+	background-size: cover;
+	background-position: center center;
+	background-color: rgba(0,0,0,0.5);
+	height: 500px;
+	padding: 0px;
+	margin:0px;
+	
+}
