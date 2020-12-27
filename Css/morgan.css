@@ -321,9 +321,67 @@ header{
  
 }
 
-/*------------------------------------------------------------------------------------*/
+/*-----------------------by hesham-------------------------------------------------------------*/
 
 
+                                 /*section4*/
+
+
+								 .Portfolio{
+									margin-bottom: 60px;
+								}
+								
+								.inner-Portfolio{
+									width: 30%;
+									position: relative;
+									margin-bottom: 20px;
+								   
+								
+								}
+								.inner-Portfolio img{
+									width: 100%;
+								}
+								.inner-Portfolio .layer{
+									background-color: white;
+									position: absolute;
+									top: 5px;
+									left: 5px;
+									right: 5px;
+									bottom: 5px;
+									display: flex;
+									flex-direction: column;
+									justify-content: center;
+									align-items: center;
+									opacity: 0;
+									transition: 1s opacity;
+									
+								}
+								.inner-Portfolio:hover .layer{
+									opacity: 1;
+								}
+								.child-Portfolio{
+									display: flex;
+									flex-wrap: wrap;
+									justify-content: space-around;
+									
+								}
+								.inf-Portfolio{
+									width: 40%;
+									margin: 50px auto;
+									text-align: center;
+									color:black;
+								}
+								.inf-Portfolio h3{
+									font-size: 40px;
+									font-weight: 900;
+									padding: 50px;
+								}
+								.inf-Portfolio a{
+									color:black;
+									padding: 15px;
+									font-size: 20px;
+									font-weight: bold;
+								}
 
 
 
