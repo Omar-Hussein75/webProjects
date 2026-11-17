@@ -1,0 +1,28 @@
+SELECT * FROM (
+SELECT DISTINCT RUN_DATE ,MSISDN, BILLING_TYPE, BILLING_STATUS, CHARGING_STATUS, HLR_STATUS,IMPACT_TYPE,HLR_TYPE,CHARGING_TYPE FROM (
+SELECT nvl(bscs_hlr.run_date,to_date(Charging.RUN_DATE,'yyyymmdd')) RUN_DATE,nvl(bscs_hlr.msisdn, charging.msisdn) msisdn, billing_type, billing_status, hlr_status ,
+(CASE WHEN ( billing_type='CTRL' AND billing_status='SUSPENDED' AND Charging.status='ACTIVE' AND HLR_STATUS='ACTIVE') THEN 'Revenue Loss'
+WHEN ( billing_type='CONV' AND billing_status='SUSPENDED' AND Charging.status='ACTIVE' AND HLR_STATUS='ACTIVE') THEN 'Revenue Loss'
+WHEN ( billing_type='POST' AND billing_status='SUSPENDED' AND Charging.status='ACTIVE' AND HLR_STATUS='ACTIVE') THEN 'Revenue Loss'
+WHEN ( billing_type='CTRL' AND billing_status='SUSPENDED' AND Charging.status IS NULL  AND HLR_STATUS='ACTIVE') THEN 'Revenue Loss'
+WHEN ( billing_type='POST' AND billing_status='SUSPENDED' AND Charging.status IS NULL  AND HLR_STATUS='ACTIVE') THEN 'Revenue Loss'
+WHEN ( billing_type='CONV' AND billing_status='SUSPENDED' AND Charging.status IS NULL  AND HLR_STATUS='ACTIVE') THEN 'Revenue Loss'
+WHEN ( billing_type='POST' AND billing_status='DEACTIVE' AND Charging.status IS NULL  AND HLR_STATUS='ACTIVE') THEN 'Revenue Loss'
+ELSE '_N' END )IMPACT_TYPE,
+CASE WHEN Charging.offers LIKE '%3000%' and Billing_type = 'CONV' THEN 'SUSPENDED' ELSE Charging.status END AS CHARGING_STATUS, charging.TYPE charging_type, HLR_TYPE FROM (
+select nvl(billing.extract_date,to_date(hlr.run_date,'yyyymmdd')) RUN_DATE,nvl(billing.msisdn,hlr.msisdn) MSISDN, Billing.type Billing_type , billing.status Billing_status,
+hlr.status HLR_status,
+'_N' IMPACT_TYPE, HLR.TYPE HLR_TYPE
+from RP7VFEPIDAT.PFM_BSCS_LOAD_ALL_STG Billing
+full outer join  RP7VFEPIDAT.PFM_HLR_STG HLR ON
+billing.MSISDN =HLR.MSISDN) bscs_hlr
+full outer join RP7VFEPIDAT.PFM_IN_STG Charging on bscs_hlr.MSISDN =Charging.MSISDN where ( service_class  is null or service_class <> '510'))
+WHERE ( NOT ( billing_type = 'CTRL' AND billing_status = 'SUSPENDED' AND charging_status= 'ACTIVE' AND hlr_status = 'SUSPENDED' AND charging_type IN ('CTRL', 'PRE'))
+AND NOT (billing_status = 'ACTIVE' AND charging_status= 'ACTIVE' AND hlr_status = 'ACTIVE')
+and NOT ( billing_status = 'SUSPENDED' AND charging_status= 'SUSPENDED' AND hlr_status = 'SUSPENDED')
+AND NOT ( billing_status = 'SUSPENDED' AND charging_status= 'ACTIVE' AND hlr_status = 'SUSPENDED')
+AND NOT (billing_status = 'ACTIVE' AND charging_status= 'SUSPENDED' AND hlr_status = 'ACTIVE' AND billing_type = 'POST')
+AND NOT (BILLING_STATUS = 'DEACTIVE' AND HLR_STATUS IS NULL AND CHARGING_STATUS IS NULL))OR Billing_TYPE IS NULL
+AND NOT (MSISDN IS NULL AND  billing_status IS NULL AND charging_status IS NULL AND hlr_status = 'ACTIVE' AND billing_type IS NULL AND Billing_TYPE IS NULL)
+AND MSISDN IS NOT NULL);
+COMMIT;
