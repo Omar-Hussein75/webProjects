@@ -213,13 +213,19 @@ SELECT NVL(k.billing_type,'-')    billing_type,
        NVL(k.charging_status,'-') charging_status,
        NVL(k.hlr_status,'-')      hlr_status,
        NVL(k.charging_type,'-')   charging_type,
-       CASE WHEN k.msisdn IS NULL THEN 'NOT IN KPI OUTPUT ANY MORE' ELSE 'MOVED TO OTHER COMBINATION' END fate,
+       CASE WHEN k.msisdn IS NULL THEN 'NOT IN KPI OUTPUT ANY MORE'
+            WHEN k.billing_type = 'PRE' AND k.billing_status = 'DEACTIVE' AND k.charging_status = 'ACTIVE'
+             AND k.charging_type = 'PRE' AND k.hlr_status IS NULL THEN 'SAME COMBINATION'
+            ELSE 'MOVED TO OTHER COMBINATION' END fate,
        COUNT(*) n
 FROM   lost l
 LEFT   JOIN KPI_RESULT_TABLE k
        ON k.msisdn = l.msisdn AND TRUNC(k.run_date) = :after_day
 GROUP  BY k.billing_type, k.billing_status, k.charging_status, k.hlr_status, k.charging_type,
-          CASE WHEN k.msisdn IS NULL THEN 'NOT IN KPI OUTPUT ANY MORE' ELSE 'MOVED TO OTHER COMBINATION' END
+          CASE WHEN k.msisdn IS NULL THEN 'NOT IN KPI OUTPUT ANY MORE'
+               WHEN k.billing_type = 'PRE' AND k.billing_status = 'DEACTIVE' AND k.charging_status = 'ACTIVE'
+                AND k.charging_type = 'PRE' AND k.hlr_status IS NULL THEN 'SAME COMBINATION'
+               ELSE 'MOVED TO OTHER COMBINATION' END
 ORDER  BY n DESC;
 
 -- 5b. For the MSISDNs that left the output: their state in each source today.
