@@ -190,3 +190,63 @@ FROM   labelled
 GROUP  BY TRUNC(run_date), reason, in_bscs||in_hlr||in_in,
           billing_type, billing_status, charging_status, hlr_status
 ORDER  BY run_day, reason, n DESC;
+
+
+-- ---------------------------------------------------------------------
+-- STEP 5. Trace the combination that dropped:
+--   billing PRE / DEACTIVE, charging ACTIVE (type PRE), HLR NULL
+-- This combination passes all six NOT rules (rule 6 needs charging NULL),
+-- so the query logic still keeps it. The drop comes from these MSISDNs no
+-- longer arriving in that state. Follow the MSISDNs to see where they went.
+-- Set :before_day to a day before the drop and :after_day to a day after it.
+-- ---------------------------------------------------------------------
+-- 5a. MSISDNs that had the combination before the drop, and what they look like in the output after it.
+WITH lost AS (
+  SELECT DISTINCT msisdn
+  FROM   KPI_RESULT_TABLE
+  WHERE  TRUNC(run_date) = :before_day
+  AND    billing_type = 'PRE' AND billing_status = 'DEACTIVE'
+  AND    charging_status = 'ACTIVE' AND charging_type = 'PRE' AND hlr_status IS NULL
+)
+SELECT NVL(k.billing_type,'-')    billing_type,
+       NVL(k.billing_status,'-')  billing_status,
+       NVL(k.charging_status,'-') charging_status,
+       NVL(k.hlr_status,'-')      hlr_status,
+       NVL(k.charging_type,'-')   charging_type,
+       CASE WHEN k.msisdn IS NULL THEN 'NOT IN KPI OUTPUT ANY MORE' ELSE 'MOVED TO OTHER COMBINATION' END fate,
+       COUNT(*) n
+FROM   lost l
+LEFT   JOIN KPI_RESULT_TABLE k
+       ON k.msisdn = l.msisdn AND TRUNC(k.run_date) = :after_day
+GROUP  BY k.billing_type, k.billing_status, k.charging_status, k.hlr_status, k.charging_type,
+          CASE WHEN k.msisdn IS NULL THEN 'NOT IN KPI OUTPUT ANY MORE' ELSE 'MOVED TO OTHER COMBINATION' END
+ORDER  BY n DESC;
+
+-- 5b. For the MSISDNs that left the output: their state in each source today.
+-- Paste or insert the 'NOT IN KPI OUTPUT ANY MORE' MSISDNs from 5a into LOST_MSISDNS first.
+SELECT CASE WHEN b.msisdn IS NULL THEN 'missing' ELSE b.type||'/'||b.status END  bscs,
+       CASE WHEN h.msisdn IS NULL THEN 'missing' ELSE NVL(h.status,'NULL') END     hlr,
+       CASE WHEN c.msisdn IS NULL THEN 'missing' ELSE c.type||'/'||NVL(c.status,'NULL') END in_charging,
+       c.service_class,
+       CASE WHEN c.msisdn IS NULL AND c2.msisdn IS NOT NULL THEN 'IN has it in another MSISDN format' END format_hint,
+       COUNT(*) n
+FROM   LOST_MSISDNS l
+LEFT   JOIN RP7VFEPIDAT.PFM_BSCS_LOAD_ALL_STG b ON b.msisdn = l.msisdn
+LEFT   JOIN RP7VFEPIDAT.PFM_HLR_STG           h ON h.msisdn = l.msisdn
+LEFT   JOIN RP7VFEPIDAT.PFM_IN_STG            c ON c.msisdn = l.msisdn
+LEFT   JOIN RP7VFEPIDAT.PFM_IN_STG           c2 ON SUBSTR(c2.msisdn,-9) = SUBSTR(l.msisdn,-9)
+                                               AND c2.msisdn <> l.msisdn
+GROUP  BY CASE WHEN b.msisdn IS NULL THEN 'missing' ELSE b.type||'/'||b.status END,
+          CASE WHEN h.msisdn IS NULL THEN 'missing' ELSE NVL(h.status,'NULL') END,
+          CASE WHEN c.msisdn IS NULL THEN 'missing' ELSE c.type||'/'||NVL(c.status,'NULL') END,
+          c.service_class,
+          CASE WHEN c.msisdn IS NULL AND c2.msisdn IS NOT NULL THEN 'IN has it in another MSISDN format' END
+ORDER  BY n DESC;
+
+-- 5c. Size of the population feeding this combination, per day, in IN alone
+-- (IN ACTIVE PRE subscribers by service class), if IN_STG keeps several days.
+SELECT TO_DATE(run_date,'yyyymmdd') d, service_class, status, COUNT(*) n
+FROM   RP7VFEPIDAT.PFM_IN_STG
+WHERE  type = 'PRE'
+GROUP  BY TO_DATE(run_date,'yyyymmdd'), service_class, status
+ORDER  BY d, n DESC;
