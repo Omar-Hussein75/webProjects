@@ -256,3 +256,11 @@ FROM   RP7VFEPIDAT.PFM_IN_STG
 WHERE  type = 'PRE'
 GROUP  BY TO_DATE(run_date,'yyyymmdd'), service_class, status
 ORDER  BY d, n DESC;
+
+
+
+BILLING_TYPE|BILLING_STATUS|CHARGING_STATUS|HLR_STATUS|CHARGING_TYPE|FATE                      |N    |
+------------+--------------+---------------+----------+-------------+--------------------------+-----+
+-           |-             |-              |-         |-            |NOT IN KPI OUTPUT ANY MORE|83188|
+PRE         |DEACTIVE      |ACTIVE         |-         |PRE          |MOVED TO OTHER COMBINATION|78461|
+PRE         |DEACTIVE      |ACTIVE         |-         |CONV         |MOVED TO OTHER COMBINATION|    2|
